@@ -4,4 +4,4 @@ nodes:
 - role: control-plane
   extraMounts:
   - hostPath: .
-    containerPath: /host
+    containerPath: /node-mount
