@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+   <head>
+       <title>Kubernetes Shop</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <style>
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+            }
+            
+            td, th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+            
+            tr:nth-child(even) {
+                background-color: #dddddd;
+            }
+        </style>
+   </head>
+   <body>
+       <table>
+           <thead>
+               <tr>
+                   <th>Name</th>
+                   <th>Price</th>
+                   <th>Count</th>
+               </tr>
+           </thead>
+           <tbody>
+               <tr th:each="item : ${items}">
+                    <td><span th:text="${item.name}"> Name </span></td>
+                    <td><span th:text="${item.price}"> Price </span></td>
+                    <td><span th:text="${item.count}"> Count </span></td>
+               </tr>
+           </tbody>
+       </table>
+   </body>
+</html>
