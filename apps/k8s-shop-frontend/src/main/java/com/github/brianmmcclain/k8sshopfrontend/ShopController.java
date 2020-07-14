@@ -1,6 +1,11 @@
 package com.github.brianmmcclain.k8sshopfrontend;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +19,9 @@ public class ShopController {
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder.build();
     }
+
+    @Autowired
+    private DiscoveryClient discoveryClient;
 
     @GetMapping("/")
     @ResponseBody
@@ -39,7 +47,13 @@ public class ShopController {
 
     private Item[] getItems() {
         RestTemplate restTemplate = new RestTemplate();
-        Item[] items = restTemplate.getForObject("http://localhost:8083/item", Item[].class);
+        List<ServiceInstance> instances = discoveryClient.getInstances("k8s-shop-backend-service");
+        String serviceURI = "http://localhost:8083";
+        if (!instances.isEmpty()) {
+            serviceURI = instances.get(0).getUri().toString();
+        }
+        System.out.println("Using Service URI: " + serviceURI);
+        Item[] items = restTemplate.getForObject(serviceURI + "/item", Item[].class);
         return items;
     }
 }
