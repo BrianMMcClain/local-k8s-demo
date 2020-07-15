@@ -53,7 +53,7 @@ spec:
       volumes:
       - name: node-mount
         hostPath:
-          path: /Users/brian/code/local-k8s-demo/apps/k8s-shop-frontend
+          path: LOCAL_DIR/apps/k8s-shop-frontend
 ---
 apiVersion: v1
 kind: Service
